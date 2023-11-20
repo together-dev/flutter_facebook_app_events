@@ -26,6 +26,10 @@ public class SwiftFacebookAppEventsPlugin: NSObject, FlutterPlugin {
             options[key] = value
         }
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: options)
+        
+        Settings.shared.isAutoLogAppEventsEnabled = true
+        Settings.shared.isAdvertiserIDCollectionEnabled = true
+        Settings.shared.isAdvertiserTrackingEnabled = true
         return true
     }
     
