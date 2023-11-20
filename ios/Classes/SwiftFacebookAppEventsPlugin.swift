@@ -8,6 +8,9 @@ public class SwiftFacebookAppEventsPlugin: NSObject, FlutterPlugin {
     public static func register(with registrar: FlutterPluginRegistrar) {
         let channel = FlutterMethodChannel(name: "flutter.oddbit.id/facebook_app_events", binaryMessenger: registrar.messenger())
         let instance = SwiftFacebookAppEventsPlugin()
+        Settings.shared.isAutoLogAppEventsEnabled = true
+        Settings.shared.isAdvertiserIDCollectionEnabled = true
+        Settings.shared.isAdvertiserTrackingEnabled = true
 
         // Required for FB SDK 9.0, as it does not initialize the SDK automatically any more.
         // See: https://developers.facebook.com/blog/post/2021/01/19/introducing-facebook-platform-sdk-version-9/
@@ -16,6 +19,9 @@ public class SwiftFacebookAppEventsPlugin: NSObject, FlutterPlugin {
 
         registrar.addMethodCallDelegate(instance, channel: channel)
         registrar.addApplicationDelegate(instance)
+        Settings.shared.isAutoLogAppEventsEnabled = true
+        Settings.shared.isAdvertiserIDCollectionEnabled = true
+        Settings.shared.isAdvertiserTrackingEnabled = true
     }
     
     /// Connect app delegate with SDK
@@ -25,8 +31,10 @@ public class SwiftFacebookAppEventsPlugin: NSObject, FlutterPlugin {
             let key = k as! UIApplication.LaunchOptionsKey
             options[key] = value
         }
+        Settings.shared.isAutoLogAppEventsEnabled = true
+        Settings.shared.isAdvertiserIDCollectionEnabled = true
+        Settings.shared.isAdvertiserTrackingEnabled = true
         ApplicationDelegate.shared.application(application,didFinishLaunchingWithOptions: options)
-        
         Settings.shared.isAutoLogAppEventsEnabled = true
         Settings.shared.isAdvertiserIDCollectionEnabled = true
         Settings.shared.isAdvertiserTrackingEnabled = true
@@ -128,6 +136,9 @@ public class SwiftFacebookAppEventsPlugin: NSObject, FlutterPlugin {
     }
 
     private func handleLogEvent(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
+        Settings.shared.isAutoLogAppEventsEnabled = true
+        Settings.shared.isAdvertiserIDCollectionEnabled = true
+        Settings.shared.isAdvertiserTrackingEnabled = true
         let arguments = call.arguments as? [String: Any] ?? [String: Any]()
         let eventName = arguments["name"] as! String
         let parameters = arguments["parameters"] as? [AppEvents.ParameterName: Any] ?? [AppEvents.ParameterName: Any]()
